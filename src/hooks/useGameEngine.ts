@@ -3,7 +3,15 @@ import type { GameState, PlayerState, Maze, Position, GameConfig, MoveRecord } f
 import { generateMaze, isValidMove, getNewPosition, isAtGoal } from '../utils/mazeAlgorithms';
 import { getNextMove, initializeOpenAI, isOpenAIInitialized, calculateDistance } from '../services/openai';
 import { gameLogger } from '../services/gameLogger';
-import { DEFAULT_API_KEY, DEBUG_PROMPT_1, DEBUG_PROMPT_2 } from '../config.local';
+
+// Debug prompts: used when ?debug=true in URL
+const DEBUG_PROMPT_1 = `Always turn right. If you can't turn right, continue straight.
+If, after turning right you can't continue straight, turn right again.`;
+
+const DEBUG_PROMPT_2 = `Move towards the goal by choosing the direction that minimizes distance.
+Prioritize: DOWN, RIGHT, UP, LEFT when distances are equal.
+Never revisit a position unless all other moves are blocked.
+If stuck in a loop, try the least recently used direction.`;
 
 const createInitialPlayerState = (id: 1 | 2): PlayerState => ({
   id,
@@ -29,15 +37,11 @@ const initialGameState: GameState = {
   globalEndTime: null,
 };
 
-// Get initial API key from localStorage or config.local
+// Get initial API key from localStorage
 function getInitialApiKey(): string {
   const storedKey = localStorage.getItem('vmaze_api_key');
   if (storedKey && storedKey.startsWith('sk-') && storedKey.length > 20) {
     return storedKey;
-  }
-  if (DEFAULT_API_KEY && DEFAULT_API_KEY.startsWith('sk-') && DEFAULT_API_KEY.length > 20) {
-    localStorage.setItem('vmaze_api_key', DEFAULT_API_KEY);
-    return DEFAULT_API_KEY;
   }
   return '';
 }

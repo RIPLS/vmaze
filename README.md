@@ -12,44 +12,18 @@ A competitive maze navigation game where two players write prompts to guide AI b
 ## Quick Start
 
 ```bash
-# Install dependencies
 npm install
-
-# Copy config template and add your OpenAI API key
-cp src/config.local.example.ts src/config.local.ts
-# Edit src/config.local.ts and add your API key
-
-# Start development server
 npm run dev
 ```
 
-Open http://localhost:5173 in your browser.
+Open http://localhost:5173, click the gear icon, and enter your OpenAI API key.
 
-## Configuration
-
-### API Key Setup
-
-The OpenAI API key can be configured in two ways:
-
-1. **Via Settings UI** - Click the gear icon and enter your API key. It will be saved to localStorage and persist across sessions.
-
-2. **Via config file** - Edit `src/config.local.ts`:
-   ```typescript
-   export const DEFAULT_API_KEY = 'sk-your-api-key-here';
-   ```
-
-### Debug Mode
+## Debug Mode
 
 Add `?debug=true` to the URL to auto-fill sample prompts for testing:
 
 ```
 http://localhost:5173/?debug=true
-```
-
-Debug prompts can be customized in `src/config.local.ts`:
-```typescript
-export const DEBUG_PROMPT_1 = `Your first test prompt...`;
-export const DEBUG_PROMPT_2 = `Your second test prompt...`;
 ```
 
 ## Game Rules
@@ -89,7 +63,6 @@ src/
   services/       # OpenAI API integration
   types/          # TypeScript interfaces
   utils/          # Maze generation algorithms
-  config.local.ts # Local configuration (git-ignored)
 ```
 
 ## Tech Stack

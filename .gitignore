@@ -28,7 +28,6 @@ dist-ssr
 .env
 .env.local
 .env.*.local
-config.local.ts
 
 # Game logs
 game_logs/
